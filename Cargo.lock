@@ -671,7 +671,7 @@ dependencies = [
 
 [[package]]
 name = "nse-quote"
-version = "0.1.0"
+version = "0.1.100"
 dependencies = [
  "reqwest",
  "serde",

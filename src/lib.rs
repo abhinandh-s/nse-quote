@@ -18,7 +18,7 @@ where
 
     match v {
         Value::Number(n) => Ok(n.as_f64()),
-        Value::String(s) if s == "NA" || s== "-" || s.is_empty() => Ok(None),
+        Value::String(s) if s == "NA" || s == "-" || s.is_empty() => Ok(None),
         Value::Null => Ok(None),
         _ => Ok(None),
     }
