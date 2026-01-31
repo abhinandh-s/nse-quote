@@ -26,7 +26,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-nse-quote = { git = "https://github.com/abhinandh-s/nse-quote" }
+nse-quote = { git = "https://github.com/abhinandh-s/nse-quote", version = "0.1.100" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 
