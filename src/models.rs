@@ -1,3 +1,5 @@
+use crate::nse_f64;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -45,7 +47,7 @@ pub struct Info {
     #[serde(rename = "isDelisted")]
     pub is_delisted: bool,
     pub isin: String,
-    pub slb_isin: String,
+    pub slb_isin: Option<String>,
     #[serde(rename = "listingDate")]
     pub listing_date: String,
     #[serde(rename = "isMunicipalBond")]
@@ -69,14 +71,14 @@ pub struct Metadata {
     pub industry: String,
     #[serde(rename = "lastUpdateTime")]
     pub last_update_time: String,
-    #[serde(rename = "pdSectorPe")]
-    pub pd_sector_pe: String,
-    #[serde(rename = "pdSymbolPe")]
-    pub pd_symbol_pe: String,
+    #[serde(rename = "pdSectorPe" , deserialize_with = "nse_f64")]
+    pub pd_sector_pe: Option<f64>,
+    #[serde(rename = "pdSymbolPe", deserialize_with = "nse_f64")]
+    pub pd_symbol_pe: Option<f64>,
     #[serde(rename = "pdSectorInd")]
     pub pd_sector_ind: String,
-    #[serde(rename = "pdSectorIndAll")]
-    pub pd_sector_ind_all: Vec<String>,
+    #[serde(rename = "pdSectorIndAll", deserialize_with = "nse_f64")]
+    pub pd_sector_ind_all: Option<f64>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -92,13 +94,13 @@ pub struct PriceInfo {
     pub close: f64,
     pub vwap: f64,
     #[serde(rename = "stockIndClosePrice")]
-    pub stock_ind_close_price: f64,
+    pub stock_ind_close_price: Option<f64>,
     #[serde(rename = "lowerCP")]
     pub lower_cp: String,
     #[serde(rename = "upperCP")]
     pub upper_cp: String,
     #[serde(rename = "pPriceBand")]
-    pub p_price_band: String,
+    pub p_price_band: Option<String>,
     #[serde(rename = "basePrice")]
     pub base_price: f64,
     #[serde(rename = "intraDayHighLow")]
@@ -109,8 +111,8 @@ pub struct PriceInfo {
     pub i_nav_value: Option<f64>,
     #[serde(rename = "checkINAV")]
     pub check_inav: bool,
-    #[serde(rename = "tickSize")]
-    pub tick_size: f64,
+    #[serde(rename = "tickSize", deserialize_with = "nse_f64")]
+    pub tick_size: Option<f64>,
     pub ieq: String,
 }
 
@@ -125,10 +127,10 @@ pub struct IntraDayHighLow {
 pub struct WeekHighLow {
     pub min: f64,
     #[serde(rename = "minDate")]
-    pub min_date: String,
+    pub min_date: Option<String>,
     pub max: f64,
     #[serde(rename = "maxDate")]
-    pub max_date: String,
+    pub max_date: Option<String>,
     pub value: f64,
 }
 
@@ -149,14 +151,14 @@ pub struct SecurityInfo {
     pub surveillance: Surveillance,
     #[serde(rename = "faceValue")]
     pub face_value: f64,
-    #[serde(rename = "issuedSize")]
-    pub issued_size: f64,
+    #[serde(rename = "issuedSize", deserialize_with = "nse_f64")]
+    pub issued_size: Option<f64>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Surveillance {
-    pub surv: String,
-    pub desc: String,
+    pub surv: Option<String>,
+    pub desc: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -189,7 +191,7 @@ pub struct PreOpenMarket {
     #[serde(rename = "finalQuantity")]
     pub final_quantity: f64,
     #[serde(rename = "lastUpdateTime")]
-    pub last_update_time: String,
+    pub last_update_time: Option<String>,
     #[serde(rename = "totalBuyQuantity")]
     pub total_buy_quantity: f64,
     #[serde(rename = "totalSellQuantity")]

@@ -30,15 +30,28 @@ impl NseClient {
     }
 
     pub async fn quote_equity(&self, symbol: &str) -> Result<Response, NseError> {
+        let symbol = symbol.replace("&", "%26");
         let url = format!("{}/api/quote-equity?symbol={}", NSE_BASE, symbol);
-        let res = self
-            .client
-            .get(&url)
-            .send()
-            .await?
-            .error_for_status()?
-            .json()
-            .await?;
-        Ok(res)
+        
+        let res = self.client.get(&url).send().await?;
+        let body = res.text().await?;
+        let parsed: Result<Response, serde_json::Error> = serde_json::from_str(&body);
+        
+        match parsed {
+            Ok(res) => Ok(res),
+            Err(err) => {
+                let (line_nbr, col) = (err.line(), err.column());
+                let mut line_count = 1usize;
+                for line in body.lines() {
+                    if line_nbr == line_count {
+                        let (left, _) = line.split_at_checked(col).unwrap();
+                        println!("{symbol}");
+                        println!("{left}");
+                    }
+                    line_count += 1;
+                }
+                Err(NseError::Serialization(err))
+            }
+        }
     }
 }
