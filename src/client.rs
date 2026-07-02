@@ -1,7 +1,7 @@
 mod client;
 mod models;
 
-use crate Response;
+use crate::Response;
 
 pub mod error::NseError; 
 
