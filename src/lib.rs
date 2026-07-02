@@ -18,8 +18,19 @@ where
 
     match v {
         Value::Number(n) => Ok(n.as_f64()),
-        Value::String(s) if s == "NA" || s == "-" || s.is_empty() => Ok(None),
-        Value::Null => Ok(None),
+        Value::String(s) => {
+            let s = s.trim();
+            if s == "NA" || s == "-" || s.is_empty() {
+                Ok(None)
+            } else {
+                // Remove commas which are common in Indian number formatting
+                let clean_s = s.replace(",", "");
+                match clean_s.parse::<f64>() {
+                    Ok(parsed) => Ok(Some(parsed)),
+                    Err(_) => Ok(None), // Or handle the error differently if preferred
+                }
+            }
+        }
         _ => Ok(None),
     }
 }
