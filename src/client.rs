@@ -1,7 +1,9 @@
 mod client;
 mod models;
 
-pub mod error; 
+use crate Response;
+
+pub mod error::NseError; 
 
 pub use client::*;
 pub use models::*;
