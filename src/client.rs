@@ -3,7 +3,7 @@ mod models;
 
 use crate::Response;
 
-pub mod error::NseError; 
+pub use error::NseError; 
 
 pub use client::*;
 pub use models::*;
